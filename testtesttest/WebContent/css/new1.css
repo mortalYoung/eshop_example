@@ -1,0 +1,22 @@
+#cont {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+#cont .breadcrumb {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+#cont #main {
+  width: 100%;
+  border: 1px solid #646363;
+  background-color: #fff;
+  padding: 0 10px 20px 10px;
+}
+#cont #main .page-heading {
+  margin-left: 10px;
+}
+#cont #main #text {
+  text-indent: 28px;
+}

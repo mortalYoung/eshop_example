@@ -1,0 +1,17 @@
+#content {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+}
+#content .breadcrumb {
+  margin: 0;
+  padding-top: 65px;
+}
+#content #main {
+  border: 1px solid #fff;
+  background-color: #fff;
+  padding-left: 10px;
+}
+#content #main p {
+  text-indent: 28px;
+}

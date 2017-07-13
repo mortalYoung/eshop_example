@@ -1,0 +1,23 @@
+#cont {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 65px;
+}
+#cont .breadcrumb {
+  margin: 0 0 10px 0;
+  padding: 0px;
+}
+#cont .badge {
+  background-color: #CB2626;
+}
+#cont .list-group-item {
+  margin-bottom: 10px;
+}
+#cont nav {
+  margin-top: -5px;
+  padding: 0;
+}
+#cont nav .pagination {
+  margin: 0;
+}

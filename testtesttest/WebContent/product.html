@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>product</title>
+<!-- jquery -->
+<script type="text/javascript" src="jquery\jquery.min.js"></script>
+<script type="text/javascript" src="jquery.cookie/jquery.cookie.js"></script>
+<!-- bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- angularjs -->
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/product.css">
+
+</head>
+<body ng-app="productList" ng-controller="productList">
+	<div ng-include src="" id="include"></div>
+	<div id="content">
+		<ol class="breadcrumb">
+			<li><a href="index.html">首页</a></li>
+			<li class="active">产品中心</li>
+		</ol>
+
+		<div id="products">
+			<div class="list-group">
+				<a href="productDetails.html?title={{p.title}}&details={{p.details}}&price={{p.price}}&image={{p.images}}" class="list-group-item" ng-repeat="p in products" target="_blank">
+					<div class="media-left">
+						<img src="{{p.images}}" class="media-object">
+						<!-- 图片大小为65*65 -->
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading">{{p.title}}</h4>
+						<p>{{p.details}}</p>
+					</div>
+					<div class="media-right media-bottom">
+						<span>{{p.price |currency}}</span>
+					</div>
+				</a>
+			</div>
+		</div>
+
+		<nav aria-label="Page navigation">
+		  <ul class="pagination">
+		    <li id="previous" ng-click="previous()">
+		      <a href="#" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+		    <li ng-repeat="page in pageList" ng-class="{active:isActivePage(page)}"><a href="#" ng-click="selectPage(page)">{{page}}</a></li>
+		    <li id="next" ng-click="next()">
+		      <a href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</nav>
+	</div>
+
+	<div id="foot">
+		<h5>@公司出品</h5>
+		<span>友情链接</span><span>&nbsp;<a href="www.baidu.con" target="_blank">百度一下</a>&nbsp;·&nbsp;<a href="www.zhihu.com"  target="_blank">知乎</a></span>
+	</div>
+</body>
+<script>
+	function encode(str){
+	    var _arr = str.split(',');
+	    return _arr;
+	}//将字符串分成数组
+
+	var newarr=$.cookie('user');
+	console.log(newarr);
+	if(newarr==null||newarr=="null"){
+		$("#include").attr("src","'common.html'");
+		console.log("未登录");
+	}else{
+		$("#include").attr("src","'loginSuccess.html'");
+		console.log("登录");
+	};//判断是否登录
+
+	
+	var productList=angular.module("productList",[]);
+	productList.controller('productList',function($http,$scope){
+		$http.post("json/moreproduct.json").then(function(result){
+			
+			$scope.user=null;
+			if($.cookie('user')!=null){
+				$scope.newarr=encode($.cookie('user'));
+				angular.forEach($scope.newarr,function(item,i){
+					switch(i){
+						case 0:$scope.user=item;break;
+						case 1:$scope.password=item;break;
+						case 2:$scope.admin=item;break;
+					}
+				})
+				if($scope.admin==0){
+					$scope.isAdmin=false;
+				}else{
+					$scope.isAdmin=true;
+				}//判断是否为管理员
+			}//判断登陆
+
+			$scope.length=result.data.number;
+			$scope.data=result.data.products;
+			$scope.pageList=[];//页面显示个数
+			$scope.pages=Math.ceil($scope.length/10);//页面总个数
+			$scope.selPage = 1;//当前选择页
+			$scope.products=$scope.data.slice(0,10);//10为页面显示个数
+
+			for(var i =0;i<$scope.pages;i++){
+				$scope.pageList.push(i+1);
+			};
+			$scope.isActivePage = function (page) {
+				return $scope.selPage == page;
+			};//将传入的page设为active
+			$scope.selectPage = function (page) {
+				$scope.selPage=page;
+				$scope.isActivePage(page);
+				$scope.updatePage();
+			}//选择当前页面
+			$scope.updatePage = function () {
+				var startPage = 10*($scope.selPage - 1);//起始为（当前页数-1）*页面显示个数
+				var endPage = $scope.selPage*10;//终止为当前页数*页面显示个数
+				$scope.products=$scope.data.slice(startPage,endPage);
+			}//更新页面显示内容
+			$scope.previous = function () {
+				if($scope.selPage==1){
+					return false;
+				}else{
+					$scope.selectPage($scope.selPage - 1);	
+				}
+			}//上一页
+			$scope.next = function () {
+				if($scope.selPage == $scope.pages){
+					return false;
+				}else{
+					$scope.selectPage($scope.selPage + 1);
+				}
+			}//下一页
+		})
+	})
+</script>
+</html>

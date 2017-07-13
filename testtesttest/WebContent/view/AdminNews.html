@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AdminNews</title>
+	<!-- jquery -->
+	<script type="text/javascript" src="../jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../jquery.cookie/jquery.cookie.js"></script>
+	<!-- bootstrap -->
+	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<!-- angularjs -->
+	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    	<a class="navbar-brand" href="#">新闻管理</a>
+    </div>
+    <form class="navbar-form navbar-left" role="search">
+    	<div class="form-group">
+    		<input type="text" class="form-control" placeholder="Search">
+    	</div>
+    	<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true">搜索</button>
+    </form>
+    <div class="btn-group" role="group" style="margin-top:8px;">
+    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增新闻</button>
+    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改新闻</button>
+    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true">批量删除新闻</button>
+    	</div>
+    </div>
+  </div>
+</nav>
+<table class="table table-striped" style="text-align:center;">
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>index</td>
+		<td>name</td>
+		<td>password</td>
+		<td>admin</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>1</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>2</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>3</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>4</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>5</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+	<tr>
+		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
+		<td>6</td>
+		<td>avc</td>
+		<td>dd</td>
+		<td>0</td>
+		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	</tr>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination" style="padding: 0px; margin: 0px;">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+</body>
+</html>

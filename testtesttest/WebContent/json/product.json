@@ -1,0 +1,25 @@
+{
+	"number":3,
+	"products":[{
+		"image":"images/pic01.jpg",
+		"title":"么么哒键盘",
+		"price":"5",
+		"introduce":"这是个么么哒的键盘",
+		"href":"javascript:void(0)"
+	},
+	{
+		"image":"images/pic02.jpg",
+		"title":"么么哒鼠标",
+		"price":"10",
+		"introduce":"这是个么么哒的鼠标",
+		"href":"javascript:void(0)"
+	},
+	{
+		"image":"images/pic03.jpg",
+		"title":"么么哒耳机",
+		"price":"100",
+		"introduce":"这是个么么哒的耳机",
+		"href":"javascript:void(0)"
+	}
+	]
+}

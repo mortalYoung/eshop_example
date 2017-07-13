@@ -1,0 +1,45 @@
+body{
+	background-color: #f7f8fa;
+	font-family: "微软雅黑";
+}
+
+#carousel{
+	@h:500px;
+	width: 100%;
+	max-width: 1263px;
+	height: @h;
+	top:65px;
+	/* 图片背景应为白色 */
+	background-color:#837D7D;
+
+	img{
+		width: 100%;
+		height: @h;
+	}
+}
+#Recent{
+	@h:55px;
+	max-width: 960px;
+	margin:0 auto;
+	margin-top: 100px;
+
+	#Product{
+		img{
+			height: @h;
+			width: @h;
+		}
+		b{
+			font-size: 18px;
+			margin-left: 5px;
+		}
+		label{
+			font-weight: normal;
+			font-size: 12px;
+		}
+		span{
+			float: right;
+			line-height: @h;
+		}
+	}
+}
+

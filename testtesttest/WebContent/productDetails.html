@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>product</title>
+<!-- jquery -->
+<script type="text/javascript" src="jquery\jquery.min.js"></script>
+<script type="text/javascript" src="jquery.cookie/jquery.cookie.js"></script>
+<!-- bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- angularjs -->
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/productDetails.css">
+
+</head>
+<body ng-app="productdetails" ng-controller="productdetails">
+	<div ng-include src="" id="include"></div>
+	<div id="con">
+		<ol class="breadcrumb">
+			<li><a href="index.html">首页</a></li>
+			<li><a href="product.html">产品中心</a></li>
+			<li class="active">产品详情</li>
+		</ol>
+		<div id="main">
+			<div class="row">
+				<div class="col-sm-6 col-md-4">
+					<img src="{{image}}" alt="产品图片">
+				</div>
+				<div class="caption">
+					<h3 class="col-sm-6">产品名称：{{title}}</h3>
+					<h3 class="col-sm-6">产品描述：<small>{{title}}</small></h3>
+					<h3 class="col-sm-6">价格：{{price|currency}}</h3>
+				</div>
+			</div>
+		</div>
+		<nav aria-label="Page navigation">
+		  <ul class="pager">
+		  	<!-- 上一ge下一ge靠传入id实现 -->
+		    <li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> 上一个</a></li>
+		    <li class="next"><a href="#">下一个 <span aria-hidden="true">&rarr;</span></a></li>
+		  </ul>
+		</nav>
+	</div>
+	<div id="foot">
+		<h5>@公司出品</h5>
+		<span>友情链接</span><span>&nbsp;<a href="http://www.baidu.com" target="_blank">百度一下</a>&nbsp;·&nbsp;<a href="http://www.zhihu.com"  target="_blank">知乎</a></span>
+	</div>
+</body>
+<script type="text/javascript">
+	function encode(str){
+	    var _arr = str.split(',');
+	    return _arr;
+	}//将字符串分成数组
+	var newarr=$.cookie('user');
+	console.log(newarr);
+	if(newarr==null||newarr=="null"){
+		$("#include").attr("src","'common.html'");
+		console.log("未登录");
+	}else{
+		$("#include").attr("src","'loginSuccess.html'");
+		console.log("登录");
+	};//判断是否登录
+
+	var productdetails=angular.module('productdetails',[]);
+	productdetails.controller('productdetails',function($http,$scope,$location){
+		$scope.user=null;
+		if($.cookie('user')!=null){
+			$scope.newarr=encode($.cookie('user'));
+			angular.forEach($scope.newarr,function(item,i){
+				switch(i){
+					case 0:$scope.user=item;break;
+					case 1:$scope.password=item;break;
+					case 2:$scope.admin=item;break;
+				}
+			})
+			if($scope.admin==0){
+				$scope.isAdmin=false;
+			}else{
+				$scope.isAdmin=true;
+			}//判断是否为管理员
+		}//判断登陆
+
+		/*解析url地址参数传递问题*/
+		var a = $location.absUrl();
+		a=a.split("?");
+		a=a[1].split("&");
+		$scope.title=a[0].split("=");
+		$scope.title=decodeURI($scope.title[1]);
+		$scope.details=a[1].split("=");
+		$scope.details=decodeURI($scope.details[1]);
+		$scope.price=a[2].split("=");
+		$scope.price=$scope.price[1];
+		$scope.image=a[3].split("=");
+		$scope.image=$scope.image[1];
+
+		console.log($scope.title+$scope.details+$scope.price+$scope.image);
+	})
+</script>
+</html>

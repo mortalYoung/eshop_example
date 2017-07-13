@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>aboutus</title>
+<!-- jquery -->
+<script type="text/javascript" src="jquery\jquery.min.js"></script>
+<script type="text/javascript" src="jquery.cookie/jquery.cookie.js"></script>
+<!-- bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<!-- angularjs -->
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<link rel="stylesheet" href="css/aboutus.css">
+
+</head>
+<body ng-app="aboutus" ng-controller="aboutus">
+	<div ng-include src="" id="include"></div>
+
+	<div id="content">
+		<ol class="breadcrumb">
+			<li><a href="index.html">首页</a></li>
+			<li class="active">关于我们</li>
+		</ol>
+
+		<div id="main">
+			<div class="page-header">
+				<h2>梦想有限公司<small>这是一家有梦想的公司</small></h2>
+			</div>
+			<p id="text"></p>
+		</div>
+	</div>
+
+	<div id="foot">
+		<h5>@公司出品</h5>
+		<span>友情链接</span><span>&nbsp;<a href="www.baidu.con" target="_blank">百度一下</a>&nbsp;·&nbsp;<a href="www.zhihu.com"  target="_blank">知乎</a></span>
+	</div>
+</body>
+<script type="text/javascript">
+	function encode(str){
+	    var _arr = str.split(',');
+	    return _arr;
+	}//将字符串分成数组
+	var newarr=$.cookie('user');
+	console.log(newarr);
+	if(newarr==null||newarr=="null"){
+		$("#include").attr("src","'common.html'");
+		console.log("未登录");
+	}else{
+		$("#include").attr("src","'loginSuccess.html'");
+		console.log("登录");
+	};//判断是否登录
+
+	
+	var aboutus=angular.module('aboutus',[]);
+	aboutus.controller('aboutus',function($scope,$http){
+
+		$scope.user=null;
+		if($.cookie('user')!=null){
+			$scope.newarr=encode($.cookie('user'));
+			angular.forEach($scope.newarr,function(item,i){
+				switch(i){
+					case 0:$scope.user=item;break;
+					case 1:$scope.password=item;break;
+					case 2:$scope.admin=item;break;
+				}
+			})
+			if($scope.admin==0){
+				$scope.isAdmin=false;
+			}else{
+				$scope.isAdmin=true;
+			}//判断是否为管理员
+		}//判断登陆
+		
+		$http.post("aboutus.txt").then(function(result){
+			var newarr = result.data.replace(/\n/g,'<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+			$("#text").html(newarr);
+		})
+
+	})
+</script>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>layout</title>
+<!-- jquery -->
+<script type="text/javascript" src="jquery\jquery.min.js"></script>
+<script type="text/javascript" src="jquery.cookie/jquery.cookie.js"></script>
+<!-- bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/common.css">
+
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-app="common" ng-controller="common">
+	<div id="layout-north">
+		<div id="content">
+			<!-- logo为55*55 -->
+			<img src="#" alt="Logo">
+
+			<!-- navigation -->
+			<div class="collapse navbar-collapse" id="navigation" role="navigation">
+			     <ul class="nav navbar-nav">
+			       <li tags="index"><a href="index.html">首页</a></li>
+			       <li tags="news"><a href="news.html">新闻中心</a></li>
+			       <li tags="product"><a href="product.html">产品中心</a></li>
+			       <li tags="tellus"><a href="tellus.html">联系我们</a></li>
+			       <li tags="aboutus"><a href="aboutus.html">关于我们</a></li>
+			     </ul>
+			</div>
+
+			<button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#login">登录</button>
+		</div>
+	</div>
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+		<div class="modal-dialog" role="document"><!-- 遮蔽层 -->
+		    <div class="modal-content"><!-- 中间的框 -->
+		        <div class="modal-header">  
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+		                <span aria-hidden="true">×</span>  
+		            </button>  
+		            <h4 class="modal-title" id="myModalLabel">登录</h4>  
+		        </div>	
+		        <div class="modal-body">  
+		            <form class="form-horizontal" novalidate>
+		            	<div class="form-group">
+							<label for="inputname" class="col-sm-2 control-label">邮箱\手机</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="inputname" placeholder="邮箱\手机" ng-model="email" required>
+								<span class="glyphicon glyphicon-remove" id="nameError"></span>
+							</div>
+		            	</div>
+		            	<div class="form-group">
+		            	    <label for="inputPassword" class="col-sm-2 control-label">密码</label>
+		            	    <div class="col-sm-10">
+		            	    	<input type="password" class="form-control" id="inputPassword" placeholder="密码" ng-model="password">
+	            	    	</div>
+		            	</div>
+		            	<div class="form-group">
+		            	    <div class="col-sm-offset-2 col-sm-10">
+		            	      <div class="checkbox">
+		            	        <label>
+		            	          	<input type="checkbox" ng-model="myVar" onclick="rememberMe()">记住我的选择
+		            	        </label>
+		            	      </div>
+		            	    </div>
+		            	</div>
+		            	<div class="form-group">
+		            	    <div class="col-sm-offset-2 col-sm-10">
+		            	      <button type="submit" class="btn btn-default" onclick="ajaxsubmit()">登录</button>
+		            	    </div>
+		            	</div>
+		            	<div class="form-group">
+		            		<div class="col-sm-offset-2 col-sm-10" id="lastControls">
+		            			<label class="noName">没有账号？</label><a href="#" class="noName">注册</a>
+		            			<a href="#">忘记密码?</a>
+		            		</div>
+		            	</div>
+		            </form>  
+		        </div>
+		        <div class="modal-footer">
+		            <div class="control-group">
+		            	<div class="controls">
+		            		<label id="loginfromOther">第三方账号登录：</label>
+		            	</div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var common = angular.module('common',[]);
+	common.controller('common',function($scope,$http){
+		//code
+	})
+	$(document).ready(function(){
+		load();
+		$("#inputname").change(function(){
+			var mail=$("#inputname").val();
+			if(check(mail)){
+				$("#inputname").css("border-color","#ccc");
+				$("#nameError").hide();
+			}else{
+				$("#inputname").css("border-color","red");
+				$("#nameError").show();
+			}
+		})//检测账号框是否输入非法
+		$("#inputPassword").focus(function(){
+			$("#inputPassword").css("border-color","#ccc");
+		})//在出错之后，点击密码框 边框变回原来的颜色
+	})
+	function check(mail){
+		var filtermail  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		var filterphone = /^1\d{10}$/;//11位 以1开头即可
+		if(filtermail.test(mail)||filterphone.test(mail)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	function load(){
+		var a =$(document).attr("title");
+		if(a=="index"){
+			$("ul.nav li[tags='index']").addClass('active');
+		}else if(a=="news"){
+			$("ul.nav li[tags='news']").addClass('active');
+		}else if(a=="product"){
+			$("ul.nav li[tags='product']").addClass('active');
+		}else if(a=="tellus"){
+			$("ul.nav li[tags='tellus']").addClass('active');
+		}else if(a=="aboutus"){
+			$("ul.nav li[tags='aboutus']").addClass('active');
+		}
+	}
+
+	function ajaxsubmit(){
+		var username=$("#inputname").val();
+		var password=$("#inputPassword").val();
+		$.ajax({
+			cache:true,
+			type:"POST",
+			url:"json/user.json",
+			data:{"username":username,"password":password},
+			success:function(data){
+				var str=null;
+				$.each(data.user,function(i,item){
+					if(item.username==username&&item.password==password){
+						//将用户存入session
+
+						//此处因为没有后台 故存入cookie
+						str=[item.username,item.password,item.admin];
+						$.cookie("user",str);
+						location.reload();
+					}
+				});
+				if(str==null){
+					alert("账号或密码错误");
+					$("#inputname").css("border-color","red");
+					$("#inputPassword").css("border-color","red");
+					$("#nameError").show();
+				}
+			},
+		})
+	}
+	function decode(str){
+	    var _str = str.join(',');
+	    return _str;
+	}//将数组转化成字符串
+	function encode(str){
+	    var _arr = str.split(',');
+	    return _arr;
+	}//将字符串分成数组
+	function rememberMe(){
+		alert("勾上并不安全");
+		//勾上将用户信息存入cookie
+	}
+	
+</script>
+</html>
