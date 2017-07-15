@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>AdminNews</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<!-- jquery -->
 	<script type="text/javascript" src="../jquery/jquery.min.js"></script>
 	<script type="text/javascript" src="../jquery.cookie/jquery.cookie.js"></script>
@@ -11,7 +12,7 @@
 	<!-- angularjs -->
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 </head>
-<body>
+<body ng-app="adminNews" ng-controller="adminNews">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -19,94 +20,271 @@
     </div>
     <form class="navbar-form navbar-left" role="search">
     	<div class="form-group">
-    		<input type="text" class="form-control" placeholder="Search">
+    		<input type="text" class="form-control" placeholder="Search" ng-model="key">
     	</div>
     	<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true">搜索</button>
     </form>
     <div class="btn-group" role="group" style="margin-top:8px;">
     	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增新闻</button>
-    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改新闻</button>
-    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove" aria-hidden="true">批量删除新闻</button>
+    	<button type="button" class="btn btn-default" ng-click="editNews()"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改新闻</button>
+    	<button type="button" class="btn btn-default" ng-click="delete()"><span class="glyphicon glyphicon-remove" aria-hidden="true">批量删除新闻</button>
     	</div>
     </div>
   </div>
 </nav>
 <table class="table table-striped" style="text-align:center;">
 	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>index</td>
-		<td>name</td>
-		<td>password</td>
-		<td>admin</td>
+		<td><input type="checkbox" ng-click="selectAll()" value="option1"></td>
+		<td>id</td>
+		<td>title</td>
+		<td>details</td>
+		<td>reporter</td>
+		<td>date</td>
+		<td>hot</td>
+		<td>href</td>
 		<td></td>
 	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>1</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>2</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>3</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>4</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>5</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
-	</tr>
-	<tr>
-		<td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-		<td>6</td>
-		<td>avc</td>
-		<td>dd</td>
-		<td>0</td>
-		<td><a href="#" role="button" class="btn btn-link">修改</a>|<a href="#" role="button" class="btn btn-link">删除</a></td>
+	<tr ng-repeat="new in news|filter:key" ng-click="checkbox($index,new)">
+		<td><input type="checkbox" class="blankCheckbox" value="{{$index}}"></td>
+		<td>{{new.id}}</td>
+		<td ng-bind="isTooLong(new.title)"></td>
+		<td ng-bind="isTooLong(new.details)"></td>
+		<td>{{new.reporter.realname}}</td>
+		<td>{{new.date}}</td>
+		<td ng-if="new.hot==0">否</td>
+		<td ng-if="new.hot==1">是</td>
+		<td><a href=../{{new.href}} target="_blank">{{new.href}}</a></td>
+		<td><a href="javascript:void(0)" ng-click="seemore(new)" data-toggle="modal" data-target="#seemore">详情</a>| <a href="#" onclick="deleteNews()">删除</a></td>
 	</tr>
 </table>
 <nav aria-label="Page navigation">
   <ul class="pagination" style="padding: 0px; margin: 0px;">
-    <li>
-      <a href="#" aria-label="Previous">
+    <li id="previous" ng-click="previous()">
+      <a href="javascript:void(0)" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
+    <li ng-repeat="page in pageList" ng-class="{active:isActivePage(page)}"><a href="javascript:void(0)" ng-click="selectPage(page)">{{page}}</a></li>
+    <li id="next" ng-click="next()">
+      <a href="javascript:void(0)" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
   </ul>
 </nav>
+<div class="modal fade" id="seemore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改/新增 新闻</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" novalidate>
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">id</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.id}}</p>
+        	      <input type="text" class="form-control" ng-model="user.id" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">username</label>
+        	    <div class="col-sm-10">
+        	    	<p class="form-control-static" ng-if="!isEdit">{{user.username}}</p>
+					<input type="text" class="form-control" ng-model="user.username" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">realname</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.realname}}</p>
+        	      <input type="text" class="form-control" ng-model="user.realname" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">sex</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.sex}}</p>
+        	      <input type="text" class="form-control" ng-model="user.sex" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">email</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.email}}</p>
+        	      <input type="email" class="form-control" ng-model="user.email" ng-if="isEdit">
+        	    </div>
+        	    <label class="col-sm-2 control-label">phone</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.phone}}</p>
+        	      <input type="text" class="form-control" ng-model="user.phone" ng-if="isEdit">
+        	    </div>
+        	    <label class="col-sm-2 control-label">address</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.address}}</p>
+        	      <input type="text" class="form-control" ng-model="user.address" ng-if="isEdit">
+        	    </div>
+        	    <label class="col-sm-2 control-label">password</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.password}}</p>
+        	      <input type="text" class="form-control" ng-model="user.password" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">注册时间</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="!isEdit">{{user.register_data}}</p>
+        	      <input type="text" class="form-control" ng-model="user.register_data" ng-if="isEdit" readonly>
+        	    </div>
+        	    <label class="col-sm-2 control-label">管理员</label>
+        	    <div class="col-sm-10">
+        	      <p class="form-control-static" ng-if="user.admin==1&&!isEdit">是</p>
+        	      <p class="form-control-static" ng-if="user.admin==0&&!isEdit">否</p>
+        	      <div class="radio" ng-if="isEdit">
+        	          <label>
+        	            <input type="radio" ng-value=true ng-model="user.admin" readonly>是
+        	          </label>
+        	          <label>
+        	          	<input type="radio" ng-value=false ng-model="user.admin" readonly>否
+        	          </label>
+        	      </div>
+        	    </div>
+        	</div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true">Close</button>
+        <button type="button" class="btn btn-primary" ng-if="isEdit" ng-click="saveUser()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
+<script type="text/javascript">
+	var adminNews=angular.module('adminNews',[]);
+	adminNews.controller('adminNews',function($http,$scope){
+		$http.post('../json/AllNews.json').then(function(result){
+			$scope.pagenumber=6;
+			$scope.length=result.data.number;
+			$scope.pageList=[];
+			$scope.pages=Math.ceil($scope.length/$scope.pagenumber);//一个页面显示6个
+			$scope.data=result.data.news;
+			$scope.selPage=1;
+			$scope.news=$scope.data.slice(0,$scope.pagenumber);//一个页面显示6个
+			for(var i =0;i<$scope.pages;i++){
+				$scope.pageList.push(i+1);
+			};
+			$scope.isActivePage = function (page) {
+				return $scope.selPage == page;
+			};//将传入的page设为active
+			$scope.selectPage = function (page) {
+				$scope.selPage=page;
+				$scope.isActivePage(page);
+				$scope.updatePage();
+			}//选择当前页面
+			$scope.updatePage = function () {
+				var startPage = $scope.pagenumber*($scope.selPage - 1);//起始为（当前页数-1）*页面显示个数
+				var endPage = $scope.selPage*$scope.pagenumber;//终止为当前页数*页面显示个数
+				$scope.news=$scope.data.slice(startPage,endPage);
+			}//更新页面显示内容
+			$scope.previous = function () {
+				if($scope.selPage==1){
+					return false;
+				}else{
+					$scope.selectPage($scope.selPage - 1);	
+				}
+			}//上一页
+			$scope.next = function () {
+				if($scope.selPage == $scope.pages){
+					return false;
+				}else{
+					$scope.selectPage($scope.selPage + 1);
+				}
+			}//下一页
+		})
+		$scope.selected=[];//已选中的数据
+		$scope.isEdit=false;//是否修改
+		$scope.selectAll=function(){//全选方法
+			var $a=$(".blankCheckbox");
+			if($(this).prop("checked")){//取消全选
+				$(this).removeProp("checked");
+				console.log("取消全选");
+				var index=0;
+				$a.each(function(index){
+					if ($(this).prop("checked")) {//假如已经选中
+						$(this).removeProp("checked")
+					}
+				})
+			}else{//全选
+				console.log("全选");
+				$(this).prop("checked",true);
+				var index=0;
+				$a.each(function(index){
+					if (!$(this).prop("checked")) {//假如未被选中
+						$(this).prop("checked",true)
+					}
+				})
+			}
+		}
+		$scope.checkbox=function(index,news){//选择方法
+			var a=".blankCheckbox[value="+index+"]";
+			if($(a).prop("checked")){//取消选中
+				$(a).removeProp("checked");
+				var a=$scope.selected.indexOf(news);
+				$scope.selected.splice(a,1);
+			}else{//选中
+				$(a).prop("checked",true);
+				$scope.selected.push(news);
+			}
+		}
+		$scope.editNews=function(){
+			var length=$scope.selected.length;
+			console.log(length);
+			if(length>1||length==0){
+				console.log("修改失败,一次只能修改一篇新闻");
+			}else{
+				console.log("您要修改的新闻id为"+$scope.selected[0].id);
+				$scope.neww=$scope.selected[0];
+				$scope.isEdit=true;
+				$("#seemore").modal('show');
+			}
+		}
+		$scope.delete=function(){
+			var length=$scope.selected.length;
+			if(length==0){
+				console.log("请选择新闻");
+			}else{
+				$.each($scope.selected,function(i,item){
+					console.log(i+"==="+item.id);
+				});
+				if(confirm("您确定删除以下"+length+"新闻?")){
+					alert("删除成功");
+				}else{
+					alert("删除失败");
+				}
+			}
+		}
+		$scope.seemore=function(news){
+			$scope.neww=this.news;
+		}
+		
+		$scope.saveNews=function (){
+			var r=confirm("确定保存修改吗");
+			if(r==true){
+				$scope.isEdit=false;
+				location.reload();
+				alert("保存成功");
+			}
+		}
+		$scope.isTooLong=function(Str){//对字数过长的字段截取函数
+			if(Str.length>10){
+				return Str.substr(0,10)+"...";
+			}else{
+				return Str;
+			}
+		}
+		$('#seemore').on('hidden.bs.modal', function (e) {
+			$scope.isEdit=false;
+		})
+	})
+	function deleteNews(){
+		var r=confirm("确定删除吗?");
+		if(r==true){
+			alert("删除成功");
+		}else{
+			alert("取消删除");
+		}
+	}
+</script>
 </html>
