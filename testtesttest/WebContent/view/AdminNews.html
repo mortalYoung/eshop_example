@@ -25,8 +25,8 @@
     	<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true">搜索</button>
     </form>
     <div class="btn-group" role="group" style="margin-top:8px;">
-    	<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增新闻</button>
-    	<button type="button" class="btn btn-default" ng-click="editNews()"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改新闻</button>
+    	<button type="button" class="btn btn-default" ng-click="editNews('add')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增新闻</button>
+    	<button type="button" class="btn btn-default" ng-click="editNews('edit')"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>修改新闻</button>
     	<button type="button" class="btn btn-default" ng-click="delete()"><span class="glyphicon glyphicon-remove" aria-hidden="true">批量删除新闻</button>
     	</div>
     </div>
@@ -82,61 +82,58 @@
       <div class="modal-body">
         <form class="form-horizontal" novalidate>
         	<div class="form-group">
-        	    <label class="col-sm-2 control-label">id</label>
+        	    <label class="col-sm-2 control-label">title</label>
         	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.id}}</p>
-        	      <input type="text" class="form-control" ng-model="user.id" ng-if="isEdit" readonly>
+        	    	<input type="text" class="form-control add" ng-model="addnews.title" ng-if="!isEdit">
+        	    	<input type="text" class="form-control" ng-model="neww.title" ng-if="isEdit">
         	    </div>
-        	    <label class="col-sm-2 control-label">username</label>
+        	</div>
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">details</label>
         	    <div class="col-sm-10">
-        	    	<p class="form-control-static" ng-if="!isEdit">{{user.username}}</p>
-					<input type="text" class="form-control" ng-model="user.username" ng-if="isEdit" readonly>
+        	    	<textarea class="form-control add" rows="3" ng-model="addnews.details" ng-if="!isEdit"></textarea>
+        	    	<textarea class="form-control" rows="3" ng-model="neww.details" ng-if="isEdit"></textarea>
         	    </div>
-        	    <label class="col-sm-2 control-label">realname</label>
+        	</div>
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">reporter</label>
         	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.realname}}</p>
-        	      <input type="text" class="form-control" ng-model="user.realname" ng-if="isEdit" readonly>
+        	    	<input type="text" class="form-control add" ng-model="addnews.reporter" ng-if="!isEdit">
+        	    	<input type="text" class="form-control" ng-model="neww.reporter.realname" ng-if="isEdit">
         	    </div>
-        	    <label class="col-sm-2 control-label">sex</label>
+        	</div>
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">date</label>
         	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.sex}}</p>
-        	      <input type="text" class="form-control" ng-model="user.sex" ng-if="isEdit" readonly>
+        	    	<input type="date" class="form-control add" ng-model="addnews.date" ng-if="!isEdit">
+        	    	<input type="date" class="form-control" ng-model="newsdate" ng-if="isEdit">
         	    </div>
-        	    <label class="col-sm-2 control-label">email</label>
+        	</div>
+        	<!-- input.date有一些问题无法解决
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">href</label>
         	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.email}}</p>
-        	      <input type="email" class="form-control" ng-model="user.email" ng-if="isEdit">
+        	    	<input type="file" ng-model="addnews.href" ng-if="!isEdit">
+        	    	<input type="file" ng-model="neww.href" ng-if="isEdit">
         	    </div>
-        	    <label class="col-sm-2 control-label">phone</label>
+        	</div> -->
+        	<div class="form-group">
+        	    <label class="col-sm-2 control-label">hot</label>
         	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.phone}}</p>
-        	      <input type="text" class="form-control" ng-model="user.phone" ng-if="isEdit">
-        	    </div>
-        	    <label class="col-sm-2 control-label">address</label>
-        	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.address}}</p>
-        	      <input type="text" class="form-control" ng-model="user.address" ng-if="isEdit">
-        	    </div>
-        	    <label class="col-sm-2 control-label">password</label>
-        	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.password}}</p>
-        	      <input type="text" class="form-control" ng-model="user.password" ng-if="isEdit" readonly>
-        	    </div>
-        	    <label class="col-sm-2 control-label">注册时间</label>
-        	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="!isEdit">{{user.register_data}}</p>
-        	      <input type="text" class="form-control" ng-model="user.register_data" ng-if="isEdit" readonly>
-        	    </div>
-        	    <label class="col-sm-2 control-label">管理员</label>
-        	    <div class="col-sm-10">
-        	      <p class="form-control-static" ng-if="user.admin==1&&!isEdit">是</p>
-        	      <p class="form-control-static" ng-if="user.admin==0&&!isEdit">否</p>
-        	      <div class="radio" ng-if="isEdit">
+        	      <div class="radio add" ng-if="!isEdit">
         	          <label>
-        	            <input type="radio" ng-value=true ng-model="user.admin" readonly>是
+        	            <input type="radio" ng-value=true ng-model="addnews.hot">是
         	          </label>
         	          <label>
-        	          	<input type="radio" ng-value=false ng-model="user.admin" readonly>否
+        	          	<input type="radio" ng-value=false ng-model="addnews.hot">否
+        	          </label>
+        	      </div>
+        	      <div class="radio" ng-if="isEdit">
+        	          <label>
+        	            <input type="radio" ng-value=true ng-model="neww.hot">是
+        	          </label>
+        	          <label>
+        	          	<input type="radio" ng-value=false ng-model="neww.hot">否
         	          </label>
         	      </div>
         	    </div>
@@ -146,6 +143,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true">Close</button>
         <button type="button" class="btn btn-primary" ng-if="isEdit" ng-click="saveUser()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Save</button>
+        <button type="button" class="btn btn-primary" ng-if="!isEdit" ng-click="addNews()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">Add</button>
       </div>
     </div>
   </div>
@@ -153,7 +151,7 @@
 </body>
 <script type="text/javascript">
 	var adminNews=angular.module('adminNews',[]);
-	adminNews.controller('adminNews',function($http,$scope){
+	adminNews.controller('adminNews',function($http,$scope,$filter){
 		$http.post('../json/AllNews.json').then(function(result){
 			$scope.pagenumber=6;
 			$scope.length=result.data.number;
@@ -195,6 +193,7 @@
 		})
 		$scope.selected=[];//已选中的数据
 		$scope.isEdit=false;//是否修改
+		$scope.addnews=[];//添加用户
 		$scope.selectAll=function(){//全选方法
 			var $a=$(".blankCheckbox");
 			if($(this).prop("checked")){//取消全选
@@ -228,16 +227,49 @@
 				$scope.selected.push(news);
 			}
 		}
-		$scope.editNews=function(){
-			var length=$scope.selected.length;
-			console.log(length);
-			if(length>1||length==0){
-				console.log("修改失败,一次只能修改一篇新闻");
-			}else{
-				console.log("您要修改的新闻id为"+$scope.selected[0].id);
-				$scope.neww=$scope.selected[0];
-				$scope.isEdit=true;
+		$scope.editNews=function(item){
+			if(item=="add"){
 				$("#seemore").modal('show');
+			}else{
+				var length=$scope.selected.length;
+				console.log(length);
+				if(length>1||length==0){
+					console.log("修改失败,一次只能修改一篇新闻");
+				}else{
+					console.log("您要修改的新闻id为"+$scope.selected[0].id);
+					$scope.neww=$scope.selected[0];
+					$scope.isEdit=true;
+					$scope.newsdate=$scope.strToDate($scope.neww.date);
+					$("#seemore").modal('show');
+				}
+			}
+		}
+		$scope.strToDate=function(str){//字符型转换成日期型
+			str=str.replace(/-/g,"/");
+			var date=new Date(str);
+			return date;
+		}
+		$scope.addNews=function(){
+			console.log($scope.addnews);
+			if($scope.addnews.title==null){
+				alert("请填写文章标题");
+				$(".add:eq(0)").focus();
+			}else if($scope.addnews.details==null){
+				alert("请填写文章描述");
+				$(".add:eq(1)").focus();
+			}else if($scope.addnews.reporter==null){
+				alert("请填写文章作者");
+				$(".add:eq(2)").focus();
+			}else if($scope.addnews.date==null){
+				alert("请填写文章日期");
+				$(".add:eq(3)").focus();
+			}else if($scope.addnews.hot==null){
+				alert("请填写文章热度");
+				$(".add:eq(4)").focus();
+			}
+			if(confirm("确认保存吗")){
+				alert("保存成功");
+				location.reload();
 			}
 		}
 		$scope.delete=function(){
@@ -259,7 +291,7 @@
 			$scope.neww=this.news;
 		}
 		
-		$scope.saveNews=function (){
+		$scope.saveUser=function (){//更改新闻方法
 			var r=confirm("确定保存修改吗");
 			if(r==true){
 				$scope.isEdit=false;
@@ -274,7 +306,8 @@
 				return Str;
 			}
 		}
-		$('#seemore').on('hidden.bs.modal', function (e) {
+		$('#seemore').on('hidden.bs.modal', function (e) {//模块框关闭时的发生事件
+			$scope.addnews=[];
 			$scope.isEdit=false;
 		})
 	})
