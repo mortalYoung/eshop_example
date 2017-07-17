@@ -54,7 +54,7 @@
 		<td ng-if="new.hot==0">否</td>
 		<td ng-if="new.hot==1">是</td>
 		<td><a href=../{{new.href}} target="_blank">{{new.href}}</a></td>
-		<td><a href="javascript:void(0)" ng-click="seemore(new)" data-toggle="modal" data-target="#seemore">详情</a>| <a href="#" onclick="deleteNews()">删除</a></td>
+		<td><a href="javascript:void(0)" ng-click="seemore(new)">详情</a>| <a href="#" onclick="deleteNews()">删除</a></td>
 	</tr>
 </table>
 <nav aria-label="Page navigation">
@@ -151,7 +151,7 @@
 </body>
 <script type="text/javascript">
 	var adminNews=angular.module('adminNews',[]);
-	adminNews.controller('adminNews',function($http,$scope,$filter){
+	adminNews.controller('adminNews',function($http,$scope){
 		$http.post('../json/AllNews.json').then(function(result){
 			$scope.pagenumber=6;
 			$scope.length=result.data.number;
@@ -250,7 +250,6 @@
 			return date;
 		}
 		$scope.addNews=function(){
-			console.log($scope.addnews);
 			if($scope.addnews.title==null){
 				alert("请填写文章标题");
 				$(".add:eq(0)").focus();
@@ -266,13 +265,13 @@
 			}else if($scope.addnews.hot==null){
 				alert("请填写文章热度");
 				$(".add:eq(4)").focus();
-			}
-			if(confirm("确认保存吗")){
+			}else if(confirm("确认保存吗")){
 				alert("保存成功");
+				console.log($scope.addnews);
 				location.reload();
 			}
 		}
-		$scope.delete=function(){
+		$scope.delete=function(){//批量删除
 			var length=$scope.selected.length;
 			if(length==0){
 				console.log("请选择新闻");
@@ -282,13 +281,14 @@
 				});
 				if(confirm("您确定删除以下"+length+"新闻?")){
 					alert("删除成功");
+					location.reload();
 				}else{
 					alert("删除失败");
 				}
 			}
 		}
 		$scope.seemore=function(news){
-			$scope.neww=this.news;
+			window.parent.open("../news1.html"+"?title="+news.title+"&details="+news.details+"&href="+news.href);
 		}
 		
 		$scope.saveUser=function (){//更改新闻方法
@@ -311,10 +311,11 @@
 			$scope.isEdit=false;
 		})
 	})
-	function deleteNews(){
+	function deleteNews(){//删除一条新闻
 		var r=confirm("确定删除吗?");
 		if(r==true){
 			alert("删除成功");
+			location.reload();
 		}else{
 			alert("取消删除");
 		}
