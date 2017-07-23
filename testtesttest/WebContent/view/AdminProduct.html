@@ -12,6 +12,20 @@
 	<!-- angularjs -->
 	<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 </head>
+<style type="text/css">
+	.img-rounded{
+		position: absolute;
+		height: 120px;
+		width: 120px;
+		background: #fff;
+		z-index: 99;
+		top: -115px;
+		right:33px;
+	}
+	.picture{
+		position: relative;
+	}
+</style>
 <body ng-app="adminproduct" ng-controller="adminproduct">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -51,7 +65,7 @@
 		<td ng-bind="isTooLong(product.productDetails)"></td>
 		<td>{{product.productSupporter.realname}}</td>
 		<td>{{product.productPrice | currency}}</td>
-		<td ng-mousemove="showimage(event,product.productImages)">{{product.productImages}}</td>
+		<td ng-mouseenter="showimage($index,product.productImages)" ng-mouseleave="hideimage()" class="picture">{{product.productImages}}</td>
 		<td>{{product.productDate}}</td>
 		<td><a href="javascript:void(0)" ng-click="seemore(product)">详情</a>| <a href="#" onclick="deleteProduct()">删除</a></td>
 	</tr>
@@ -298,11 +312,13 @@
 			$scope.addproduct=[];
 			$scope.isEdit=false;
 		})
-		$scope.showimage=function (event,src){
-			var xx=event.pageX;
-			var yy=event.pageY;
-			var image=$('<img src="" alt="..." class="img-rounded">');
-			console.log(src);
+		$scope.showimage=function (index,url){
+			var image='<img src="../'+url+'" alt="产品图片" class="img-rounded">';
+			$(".picture:eq("+index+")").append(image);
+			console.log(index);
+		}
+		$scope.hideimage=function (){
+			$("img.img-rounded").remove();
 		}
 	})
 
